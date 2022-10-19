@@ -92,15 +92,16 @@ function main() {
     map: loader.load("resources/DefaultCover.jpg"),
   });
 
-  const INITIAL_MAP = [{ childID: "Cover_R", mtl: Default }];
+  const INITIAL_MAP = [{ childID: "BookCover", mtl: Default, name:'default' }];
 
 
-  function initMaterial(parent, type, mtl) {
+  function initMaterial(parent, type, mtl, name) {
     parent.traverse((o) => {
       if (o.isMesh) {
         if (o.name.includes(type)) {
           o.material = mtl;
           o.nameID = type;
+          o.name = name;
         }
       }
     });
@@ -117,7 +118,7 @@ function main() {
       });
 
       for (let object of INITIAL_MAP) {
-        initMaterial(root, object.childID, object.mtl);
+        initMaterial(root, object.childID, object.mtl,object.name );
       }
       scene.add(root);
       scene.minFilter = THREE.LinearMipmapLinearFilter;
@@ -184,11 +185,11 @@ function main() {
   const skins = [
     {
       skin: Default,
-      text: "Default",
+      text: "default",
     },
     {
       skin: Premium,
-      text: "Premium",
+      text: "premium",
     },
   ];
   const TRAY = document.getElementById("js-tray-slide");
@@ -217,18 +218,25 @@ function main() {
     let skin = skins[e.target.dataset.key];
     let new_mtl;
     new_mtl = skin.skin;
-    setMaterial(root, "Cover_R", new_mtl);
+    let name = skin.text
+    setMaterial(root, "BookCover", new_mtl, name);
   }
 
-  function setMaterial(parent, type, mtl) {
+  function setMaterial(parent, type, mtl, name) {
     parent.traverse((o) => {
       if (o.isMesh && o.nameID != null) {
         if (o.nameID == type) {
           o.material = mtl;
+          o.name = name;
         }
       }
     });
   }
+
+  let orderButton = document.getElementById('orderButton')
+  orderButton.addEventListener("click", (e) => {
+    return console.log(root.children[0].name)
+  });
 }
 
 main();
