@@ -30,7 +30,7 @@ function main() {
   controls.update();
 
   const scene = new THREE.Scene();
-  const BACKGROUND_COLOR = 0xf1f1f1; //TODO
+  const BACKGROUND_COLOR = 0xf1f1f1; 
   scene.background = new THREE.Color(BACKGROUND_COLOR);
 
   {
@@ -67,8 +67,7 @@ function main() {
     const halfSizeToFitOnScreen = sizeToFitOnScreen * 0.5;
     const halfFovY = THREE.MathUtils.degToRad(camera.fov * 0.5);
     const distance = 10;
-    // compute a unit vector that points in the direction the camera is now
-    // in the xz plane from the center of the box
+
     const direction = new THREE.Vector3()
       .subVectors(camera.position, boxCenter)
       .multiply(new THREE.Vector3(1, 20, 1))
@@ -122,17 +121,14 @@ function main() {
       }
       scene.add(root);
       scene.minFilter = THREE.LinearMipmapLinearFilter;
-      // compute the box that contains all the stuff
-      // from root and below
+
       const box = new THREE.Box3().setFromObject(root);
 
       const boxSize = box.getSize(new THREE.Vector3()).length();
       const boxCenter = box.getCenter(new THREE.Vector3());
 
-      // set the camera to frame the box
       frameArea(boxSize * 0.5, boxSize, boxCenter, camera);
 
-      // update the Trackball controls to handle the new size
       controls.maxDistance = boxSize * 10;
       controls.target.copy(boxCenter);
       controls.update();
@@ -213,12 +209,14 @@ function main() {
   for (const swatch of swatches) {
     swatch.addEventListener("click", selectSwatch);
   }
-
+  let chosenSkin;
   function selectSwatch(e) {
     let skin = skins[e.target.dataset.key];
     let new_mtl;
+    let name;
     new_mtl = skin.skin;
-    let name = skin.text
+    name = skin.text;
+    chosenSkin = skin.text;
     setMaterial(root, "BookCover", new_mtl, name);
   }
 
@@ -235,7 +233,10 @@ function main() {
 
   let orderButton = document.getElementById('orderButton')
   orderButton.addEventListener("click", (e) => {
-    return console.log(root.children[0].name)
+    if (chosenSkin == undefined){
+      return console.log('default')
+    }
+    return console.log(chosenSkin)
   });
 }
 
