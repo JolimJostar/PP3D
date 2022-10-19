@@ -5,10 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PP3D</title>
-    <script defer src="main.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.139.0/build/three.module.js",
+                "OrbitControls": "https://unpkg.com/three@0.139.0/examples/jsm/controls/OrbitControls.js",
+                "GLTFLoader": "https://unpkg.com/three@0.139.0/examples/jsm/loaders/GLTFLoader.js"
+            }
+        }
+    </script>
+    <script type="module" defer src="main.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <canvas id="c" width="500" height="500" ></canvas>
+    <div class="dropdown closed">
+        <h2 class="icon">Обложка</h2>
+        <ul id="js-tray-slide" class="menu">
+
+        </ul>
+      </div>
+      <div id="js-tray" class="tray">
+        <div id="js-tray-slide" class="tray__slide"></div>
+    </div>
+   </div>
 </body>
 </html>
